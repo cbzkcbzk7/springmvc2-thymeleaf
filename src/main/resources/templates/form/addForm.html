@@ -13,10 +13,10 @@
 <body>
 
 <div class="container">
-
     <div class="py-5 text-center">
         <h2>상품 등록 폼</h2>
     </div>
+
 
     <form action="item.html" th:action th:object="${item}" method="post">
         <div>                                   <!-- object, field : controller에서 넘겨준 객체를 받아서 id와 name 생략 가능 -->
@@ -39,15 +39,26 @@
         <div>판매 여부</div>
         <div>
             <div class="form-check">
-<!--        hidden으로 name="_기존name" : 값 체크를 안하면 아예 필드자체가 넘어가지 않기때문에 추가(스프링 제공)
-              체크박스를 체크하면 스프링MVC가 _open은 무시한다.
-                체크박스를 체크하지 않으면 _open만 있는 것을 확인하고, open의 값이 체크되지 않았다고 인식한다.
-                : 체크박스의 경우 thymeleaf가 이 부분 자동으로 처리하는 방식이 있다(th:field).-->
-              <!--  <input type="checkbox" id="open" name="open" class="form-check-input">
-               <input type="hidden" name="_open" value="on">-->
+                <!--        hidden으로 name="_기존name" : 값 체크를 안하면 아예 필드자체가 넘어가지 않기때문에 추가(스프링 제공)
+                              체크박스를 체크하면 스프링MVC가 _open은 무시한다.
+                                체크박스를 체크하지 않으면 _open만 있는 것을 확인하고, open의 값이 체크되지 않았다고 인식한다.
+                                : 체크박스의 경우 thymeleaf가 이 부분 자동으로 처리하는 방식이 있다(th:field).-->
+                <!--  <input type="checkbox" id="open" name="open" class="form-check-input">
+                 <input type="hidden" name="_open" value="on">-->
                 <input type="checkbox" id="open" th:field="*{open}" class=
                         "form-check-input">
                 <label for="open" class="form-check-label">판매 오픈</label>
+            </div>
+        </div>
+
+        <!-- multi checkbox -->
+        <!-- th:field="*{regions}" 는 form 의 th:object="${item}" ${item.regions} 임 -->
+        <div>
+            <div>등록 지역</div>
+            <div th:each="region : ${regions}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input">
+                <label th:for="${#ids.prev('regions')}"
+                       th:text="${region.value}" class="form-check-label">서울</label>
             </div>
         </div>
 
@@ -65,6 +76,7 @@
         </div>
 
     </form>
+
 
 </div> <!-- /container -->
 </body>
